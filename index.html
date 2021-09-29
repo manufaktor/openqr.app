@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The simple QR code launcher</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+      .container {
+        display: grid;
+        place-items: center;
+        height: 100%;
+      }
+
+      #qrcode-container {
+        min-width: 240px;
+      }
+
+      #qrcode-container svg {
+        width: 100%;
+        height: auto;
+      }
+
+      .is-hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="qrcode-container"></div>
+      <form name="qr" method="get" action="/index.html" class="is-hidden">
+        <input type="text" name="value" />
+        <input type="submit" value="Generate" />
+      </form>
+    </div>
+    <script src="https://ghcdn.rawgit.org/kazuhikoarase/qrcode-generator/master/js/qrcode.js"></script>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+
+      if (params.get("value")) {
+        const qr = qrcode(4, "L");
+        qr.addData(decodeURIComponent(params.get("value")));
+        qr.make();
+
+        document.getElementById("qrcode-container").innerHTML =
+          qr.createSvgTag();
+      } else {
+        const form = document.forms.qr;
+        form.classList.remove("is-hidden");
+
+        form.addEventListener("submit", function (e) {
+          const value = form.elements.value.value;
+
+          if (!value) {
+            e.preventDefault();
+            return;
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
