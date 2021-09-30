@@ -33,7 +33,7 @@
     </style>
   </head>
   <body>
-    <a id="qrcode-container" class="container"></a>
+    <a id="qrcode-container" class="container is-hidden"></a>
     <form
       name="qr"
       method="get"
@@ -57,6 +57,7 @@
         const container = document.getElementById("qrcode-container");
         container.innerHTML = qr.createSvgTag();
         container.setAttribute("href", decodeURIComponent(params.get("value")));
+        container.classList.remove("is-hidden");
       } else {
         const form = document.forms.qr;
         form.classList.remove("is-hidden");
