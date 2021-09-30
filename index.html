@@ -12,19 +12,19 @@
         padding: 0;
         height: 100%;
       }
+
       .container {
+        width: 100%;
+        height: 100%;
         display: grid;
         place-items: center;
-        height: 100%;
-      }
-
-      #qrcode-container {
-        min-width: 240px;
       }
 
       #qrcode-container svg {
-        width: 100%;
-        height: auto;
+        min-width: 300px;
+        min-height: 300px;
+        max-width: 100vw;
+        max-height: 100vh;
       }
 
       .is-hidden {
@@ -33,13 +33,18 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <div id="qrcode-container"></div>
-      <form name="qr" method="get" action="/index.html" class="is-hidden">
+    <a id="qrcode-container" class="container"></a>
+    <form
+      name="qr"
+      method="get"
+      action="/index.html"
+      class="container is-hidden"
+    >
+      <div>
         <input type="text" name="value" />
         <input type="submit" value="Generate" />
-      </form>
-    </div>
+      </div>
+    </form>
     <script src="https://ghcdn.rawgit.org/kazuhikoarase/qrcode-generator/master/js/qrcode.js"></script>
     <script>
       const params = new URLSearchParams(window.location.search);
@@ -49,8 +54,9 @@
         qr.addData(decodeURIComponent(params.get("value")));
         qr.make();
 
-        document.getElementById("qrcode-container").innerHTML =
-          qr.createSvgTag();
+        const container = document.getElementById("qrcode-container");
+        container.innerHTML = qr.createSvgTag();
+        container.setAttribute("href", decodeURIComponent(params.get("value")));
       } else {
         const form = document.forms.qr;
         form.classList.remove("is-hidden");
