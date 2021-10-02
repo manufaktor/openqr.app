@@ -56,6 +56,10 @@
         display: none;
       }
 
+      .inputs {
+        display: grid;
+      }
+
       .inputs > input {
         font-size: 16px;
         border-radius: 0.5rem;
@@ -94,7 +98,7 @@
     <a id="qrcode-container" class="container is-hidden"></a>
     <form name="qr" method="get" action="/" class="container is-hidden">
       <div class="inputs">
-        <input type="text" name="value" placeholder="https://web…" />
+        <input type="text" name="value" placeholder="https://web…" autofocus />
         <input type="submit" value="Generate QR code" />
       </div>
     </form>
